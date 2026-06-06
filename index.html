@@ -1,0 +1,1149 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeySales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Open+Sans:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:    #10b981;
+  --navy:     #1f4e8c;
+  --bg:       #0e1014;
+  --surface:  #161a21;
+  --card:     #1c2028;
+  --border:   #252c38;
+  --border2:  #2e3748;
+  --text:     #d9d9d9;
+  --muted:    #6b7a94;
+  --danger:   #f05b5b;
+  --warn:     #f0a84a;
+  --poppins:  'Poppins', sans-serif;
+  --opensans: 'Open Sans', sans-serif;
+  --mono:     'DM Mono', monospace;
+  --radius:   8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--poppins);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ── SHELL ─────────────────────────────────────── */
+.shell { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ───────────────────────────────────── */
+aside {
+  width: 232px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.logo-wrap {
+  padding: 26px 22px 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-family: var(--poppins);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.logo .k  { color: #10b981; }
+.logo .e1 { color: #1f4e8c; }
+.logo .y  { color: #1f4e8c; }
+.logo .s1 { color: #10b981; }
+.logo .a  { color: #10b981; }
+.logo .l  { color: #1f4e8c; }
+.logo .e2 { color: #1f4e8c; }
+.logo .s2 { color: #1f4e8c; }
+
+.logo-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.nav-group { padding: 18px 0 4px; }
+.nav-group-label {
+  padding: 0 18px 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+aside a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.12s;
+  border-left: 2px solid transparent;
+  text-decoration: none;
+}
+aside a:hover { color: var(--text); background: rgba(217,217,217,0.04); }
+aside a.active {
+  color: var(--green);
+  background: rgba(16,185,129,0.07);
+  border-left-color: var(--green);
+  font-weight: 500;
+}
+
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+aside a.active .nav-dot { opacity: 1; }
+
+.sidebar-foot {
+  margin-top: auto;
+  padding: 16px 18px;
+  border-top: 1px solid var(--border);
+}
+.tenant-chip {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+.tenant-chip-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.tenant-chip-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tenant-chip-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* ── MAIN ──────────────────────────────────────── */
+main { flex: 1; overflow-y: auto; background: var(--bg); }
+
+.page { display: none; }
+.page.active { display: block; }
+
+.page-head {
+  padding: 32px 40px 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.page-eyebrow {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 4px;
+}
+
+.page-title {
+  font-family: var(--poppins);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.page-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-weight: 300;
+}
+
+.content { padding: 32px 40px; max-width: 900px; }
+
+/* ── CARDS ─────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-bottom: 18px;
+}
+.card-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+/* ── FORMS ─────────────────────────────────────── */
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 5px;
+  margin-top: 12px;
+}
+label:first-of-type { margin-top: 0; }
+
+input, select, textarea {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color 0.12s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--green); }
+select option { background: var(--surface); }
+textarea { resize: vertical; min-height: 90px; }
+
+.hint { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.55; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+hr.div { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+
+/* ── BUTTONS ───────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-family: var(--opensans);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.12s;
+  letter-spacing: 0.2px;
+}
+.btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: var(--green); color: #081a10; }
+.btn-navy    { background: var(--navy);  color: #fff; }
+.btn-ghost   { background: transparent; color: var(--text); border: 1px solid var(--border2); }
+.btn-ghost:hover { border-color: var(--text); }
+.btn-danger  { background: var(--danger); color: #fff; }
+.btn-sm { padding: 6px 13px; font-size: 11px; }
+.btn-row { display: flex; gap: 9px; margin-top: 16px; flex-wrap: wrap; }
+
+/* ── RESPONSE BOX ──────────────────────────────── */
+.res {
+  margin-top: 12px;
+  background: #0a0d12;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  line-height: 1.6;
+}
+.res.show  { display: block; }
+.res.error { color: var(--danger); }
+.res.loading { color: rgba(16,185,129,0.5); }
+
+/* ── METRICS ───────────────────────────────────── */
+.metrics-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+.metric {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  transition: border-color 0.15s;
+}
+.metric:hover { border-color: var(--green); }
+.metric-label { font-family: var(--mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.metric-value { font-family: var(--poppins); font-size: 30px; font-weight: 700; letter-spacing: -1px; color: var(--green); line-height: 1; }
+.metric-sub   { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+/* ── TABS ──────────────────────────────────────── */
+.tabs { display: flex; gap: 0; margin-bottom: 18px; border-bottom: 1px solid var(--border); }
+.tab { padding: 8px 16px; font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.12s; font-family: var(--mono); }
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+/* ── MAP ROWS ──────────────────────────────────── */
+.map-row { display: grid; grid-template-columns: 150px 1fr; gap: 8px; align-items: center; margin-bottom: 7px; }
+.map-key { font-family: var(--mono); font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+.req-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+/* ── SQL BLOCK ─────────────────────────────────── */
+.sql-block {
+  background: #0a0d12;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+/* ── PREVIEW TABLE ─────────────────────────────── */
+.prev-table { width: 100%; border-collapse: collapse; font-size: 11px; font-family: var(--mono); }
+.prev-table th { background: var(--surface); color: var(--muted); padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--border); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+.prev-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text); }
+.prev-table tr:hover td { background: rgba(217,217,217,0.02); }
+
+/* ── EXTRACTION FORM ───────────────────────────── */
+.ext-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ext-full { grid-column: 1 / -1; }
+
+.mode-toggle { display: flex; gap: 8px; margin-bottom: 4px; }
+.mode-btn {
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-family: var(--mono);
+  font-size: 11px;
+  cursor: pointer;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.12s;
+}
+.mode-btn.active { background: var(--green); color: #081a10; border-color: var(--green); font-weight: 700; }
+
+.info-banner {
+  background: rgba(16,185,129,0.07);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: rgba(217,217,217,0.8);
+  margin-bottom: 14px;
+  font-family: var(--mono);
+}
+.info-banner strong { color: var(--green); }
+
+/* ── BADGE ─────────────────────────────────────── */
+.badge { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px; }
+.badge-green  { background: rgba(16,185,129,0.15); color: var(--green); }
+.badge-yellow { background: rgba(240,168,74,0.15);  color: var(--warn); }
+.badge-red    { background: rgba(240,91,91,0.15);   color: var(--danger); }
+
+/* ── TOAST ─────────────────────────────────────── */
+#toast {
+  position: fixed; bottom: 22px; right: 22px;
+  background: var(--card);
+  color: var(--green);
+  border: 1px solid var(--green);
+  padding: 10px 16px;
+  border-radius: 7px;
+  font-family: var(--mono);
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+  z-index: 9999;
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside>
+  <div class="logo-wrap">
+    <div class="logo">
+      <span class="k">K</span><span class="e1">e</span><span class="y">y</span><span class="s1">S</span><span class="a">a</span><span class="l">l</span><span class="e2">e</span><span class="s2">s</span>
+    </div>
+    <div class="logo-tag">Plataforma de Recaptação</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Sistema</div>
+    <a class="active" onclick="go('monitor',this)"><div class="nav-dot"></div>Monitor</a>
+    <a onclick="go('tenant',this)"><div class="nav-dot"></div>Clientes</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Ingestão</div>
+    <a onclick="go('mapping',this)"><div class="nav-dot"></div>Mapeamento</a>
+    <a onclick="go('ingest',this)"><div class="nav-dot"></div>Importar Leads</a>
+    <a onclick="go('extraction',this)"><div class="nav-dot"></div>Extração WhatsApp</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Campanha</div>
+    <a onclick="go('campaign',this)"><div class="nav-dot"></div>Nova Campanha</a>
+    <a onclick="go('results',this)"><div class="nav-dot"></div>Resultados</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Config</div>
+    <a onclick="go('settings',this)"><div class="nav-dot"></div>Configurações</a>
+  </div>
+
+  <div class="sidebar-foot">
+    <div class="tenant-chip">
+      <div class="tenant-chip-label">Cliente ativo</div>
+      <div class="tenant-chip-name" id="chip-name">Nenhum selecionado</div>
+      <div class="tenant-chip-id"   id="chip-id">—</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main>
+
+<!-- ───── MONITOR ───── -->
+<div class="page active" id="page-monitor">
+  <div class="page-head">
+    <div>
+      <div class="page-eyebrow">Visão Geral</div>
+      <div class="page-title">Monitor</div>
+      <div class="page-sub">Status em tempo real do sistema</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="loadMonitor()">↻ Atualizar</button>
+  </div>
+  <div class="content">
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-label">Leads</div><div class="metric-value" id="m-leads">—</div><div class="metric-sub">no banco</div></div>
+      <div class="metric"><div class="metric-label">Scorados</div><div class="metric-value" id="m-scores">—</div><div class="metric-sub">score válido</div></div>
+      <div class="metric"><div class="metric-label">Na fila</div><div class="metric-value" id="m-queue">—</div><div class="metric-sub">pendentes</div></div>
+      <div class="metric"><div class="metric-label">Enviados</div><div class="metric-value" id="m-sent">—</div><div class="metric-sub">este mês</div></div>
+      <div class="metric"><div class="metric-label">Convertidos</div><div class="metric-value" id="m-conv">—</div><div class="metric-sub">este mês</div></div>
+      <div class="metric"><div class="metric-label">Falhas</div><div class="metric-value" id="m-fail" style="color:var(--danger)">—</div><div class="metric-sub">com erro</div></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Queries de monitoramento — Adminer</div>
+      <div class="sql-block" id="monitor-sql">Defina um cliente ativo para ver as queries.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ───── CLIENTES ───── -->
+<div class="page" id="page-tenant">
+  <div class="page-head">
+    <div>
+      <div class="page-eyebrow">Gestão</div>
+      <div class="page-title">Clientes</div>
+      <div class="page-sub">Cadastre e selecione o cliente ativo da sessão</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="card-label">Cliente ativo desta sessão</div>
+      <label>UUID do cliente</label>
+      <input id="t-uuid" placeholder="Cole o UUID gerado no banco">
+      <label>Nome (para exibição)</label>
+      <input id="t-name" placeholder="Ex: Pizzaria Exemplo">
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="setTenant()">Definir como ativo</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Cadastrar novo cliente</div>
+      <div class="row2">
+        <div>
+          <label>Nome da empresa</label>
+          <input id="new-tenant-name" placeholder="Pizzaria Exemplo">
+        </div>
+        <div>
+          <label>Segmento</label>
+          <input id="new-tenant-industry" placeholder="pizzaria, ecommerce...">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="createTenant()">Ver SQL para o Adminer</button>
+      </div>
+      <div class="res" id="res-tenant"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ───── MAPEAMENTO ───── -->
+<div class="page" id="page-mapping">
+  <div class="page-head">
+    <div>
+      <div class="page-eyebrow">Ingestão</div>
+      <div class="page-title">Mapeamento de Colunas</div>
+      <div class="page-sub">Configure uma vez por cliente — informe o nome exato de cada coluna na planilha dele</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="card-label">Colunas da planilha do cliente</div>
+      <div class="map-row"><div class="map-key"><span class="req-dot"></span>telefone *</div><input id="map-telefone" placeholder="Ex: Celular"></div>
+      <div class="map-row"><div class="map-key"><span class="req-dot"></span>ultima_compra *</div><input id="map-ultima_compra" placeholder="Ex: Dt Ultima Compra"></div>
+      <div class="map-row"><div class="map-key">nome</div><input id="map-nome" placeholder="Ex: Nome Completo"></div>
+      <div class="map-row"><div class="map-key">ultimo_valor</div><input id="map-ultimo_valor" placeholder="Ex: Vlr Pedido"></div>
+      <div class="map-row"><div class="map-key">produto</div><input id="map-produto" placeholder="Ex: Produto"></div>
+      <div class="map-row"><div class="map-key">email</div><input id="map-email" placeholder="Ex: Email"></div>
+      <hr class="div">
+      <label>Categorias de produto</label>
+      <input id="map-categories" placeholder="Ex: salgada, doce, bebida">
+      <label>Fonte dos dados</label>
+      <select id="map-source">
+        <option value="csv">Planilha CSV / Excel</option>
+        <option value="google_sheets">Google Sheets</option>
+        <option value="hubspot">HubSpot</option>
+        <option value="rdstation">RD Station</option>
+        <option value="whatsapp">WhatsApp</option>
+      </select>
+      <label>Instância Evolution API (para disparos)</label>
+      <input id="map-evolution" placeholder="Nome da instância no Evolution">
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="previewMapping()">Testar mapeamento</button>
+        <button class="btn btn-primary" onclick="saveMapping()">Salvar mapeamento</button>
+      </div>
+      <div class="res" id="res-mapping"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ───── IMPORTAR LEADS ───── -->
+<div class="page" id="page-ingest">
+  <div class="page-head">
+    <div>
+      <div class="page-eyebrow">Ingestão</div>
+      <div class="page-title">Importar Leads</div>
+      <div class="page-sub">Suba a planilha do cliente para o banco de dados</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'tab-csv')">CSV / Excel</div>
+      <div class="tab" onclick="switchTab(this,'tab-wpp')">WhatsApp (texto)</div>
+      <div class="tab" onclick="switchTab(this,'tab-sample')">Dados de exemplo</div>
+    </div>
+
+    <div id="tab-csv">
+      <div class="card">
+        <div class="card-label">Upload de planilha</div>
+        <label>Arquivo CSV ou Excel</label>
+        <input type="file" id="csv-file" accept=".csv,.xlsx,.xls" onchange="handleFileUpload(this)">
+        <div class="hint">O sistema detecta automaticamente o separador. Use o mapeamento configurado anteriormente.</div>
+        <label>Usar IA para dados confusos?</label>
+        <select id="csv-use-ai">
+          <option value="false">Não — planilha organizada</option>
+          <option value="true">Sim — planilha bagunçada</option>
+        </select>
+        <div id="csv-preview-area" style="display:none; margin-top:14px">
+          <div class="card-label">Preview (5 primeiras linhas)</div>
+          <div style="overflow-x:auto"><table class="prev-table" id="csv-preview-table"></table></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="ingestCSV()">Importar leads</button>
+        </div>
+        <div class="res" id="res-ingest-csv"></div>
+      </div>
+    </div>
+
+    <div id="tab-wpp" style="display:none">
+      <div class="card">
+        <div class="card-label">Log de conversa exportado do WhatsApp</div>
+        <label>Cole o texto exportado</label>
+        <textarea id="wpp-text" placeholder="[01/03/2025, 14:32:15] 5511999998888: paguei o pix&#10;[01/03/2025, 14:35:00] Atendente: Confirmado! R$52,90"></textarea>
+        <label>Usar IA para interpretar?</label>
+        <select id="wpp-use-ai">
+          <option value="true">Sim — recomendado</option>
+          <option value="false">Não — só regex básico</option>
+        </select>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="ingestWhatsApp()">Importar leads</button>
+        </div>
+        <div class="res" id="res-ingest-wpp"></div>
+      </div>
+    </div>
+
+    <div id="tab-sample" style="display:none">
+      <div class="card">
+        <div class="card-label">Dados fictícios para teste</div>
+        <p class="hint" style="margin-bottom:14px">8 leads fictícios de uma pizzaria para testar o sistema sem planilha real.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="ingestSample()">Importar dados de exemplo</button>
+        </div>
+        <div class="res" id="res-ingest-sample"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ───── EXTRAÇÃO WHATSAPP ───── -->
+<div class="page" id="page-extraction">
+  <div class="page-head">
+    <div>
+      <div class="page-eyebrow">Ingestão</div>
+      <div class="page-title">Extração WhatsApp</div>
+      <div class="page-sub">Varredura automática do histórico de conversas via Evolution API</div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="info-banner">
+      <strong>Como funciona:</strong> conecte o número do cliente na instância <strong>Varredura</strong> da Evolution → preencha os campos → execute a extração → revise a planilha gerada → importe os leads aprovados.
+    </div>
+
+    <div class="card">
+      <div class="card-label">Configuração da instância</div>
+      <div class="ext-grid">
+        <div>
+          <label>URL base da Evolution API</label>
+          <input id="ext-base-url" placeholder="https://n8nv1-evolution.xbcoef.easypanel.host">
+        </div>
+        <div>
+          <label>Nome da instância</label>
+          <input id="ext-instance" placeholder="Varredura" value="Varredura">
+        </div>
+        <div class="ext-full">
+          <label>API Key da instância</label>
+          <input id="ext-apikey" type="password" placeholder="Cole a API key da instância Varredura">
+          <div class="hint">Encontrada em: painel Evolution → instância → API Key</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Parâmetros da varredura</div>
+      <div class="ext-grid">
+        <div>
+          <label>URL da planilha de destino</label>
+          <input id="ext-sheets-url" placeholder="https://docs.google.com/spreadsheets/d/...">
+          <div class="hint">Planilha com aba <code style="color:var(--green)">leads_extraidos</code></div>
+        </div>
+        <div>
+          <label>Máx. mensagens por chat</label>
+          <input id="ext-max-msgs" type="number" value="700" min="50" max="1000">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Modo de execução</div>
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="mode-dry" onclick="setMode('dry')">Teste (dry run)</button>
+        <button class="mode-btn" id="mode-full" onclick="setMode('full')">Extração completa</button>
+      </div>
+      <div class="hint" id="mode-hint">
+        <strong style="color:var(--warn)">Teste:</strong> lista os chats disponíveis sem processar mensagens. Use para confirmar que a instância está conectada antes de rodar a extração real.
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="runExtraction()">Executar extração</button>
+        <button class="btn btn-ghost btn-sm" onclick="clearExtRes()">Limpar</button>
+      </div>
+      <div class="res" id="res-extraction"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Após revisar a planilha — importar leads aprovados</div>
+      <p class="hint" style="margin-bottom:14px">Depois de revisar e aprovar os dados na planilha, use o wf_ingest_unified para importar os leads para o banco. Cole as linhas aprovadas como CSV ou use o endpoint diretamente.</p>
+      <div class="btn-row">
+        <button class="btn btn-navy" onclick="go('ingest', document.querySelector('aside a:nth-of-type(4)'))">Ir para Importar Leads</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ───── CAMPANHA ───── -->
+<div class="page" id="page-campaign">
+  <div class="page-head">
+    <div>
+      <div class="page-eyebrow">Campanha</div>
+      <div class="page-title">Nova Campanha</div>
+      <div class="page-sub">Configure a campanha mensal após a reunião com o cliente</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="card-label">Planilha Google Sheets</div>
+      <label>URL da planilha de campanha</label>
+      <input id="camp-sheets-url" placeholder="https://docs.google.com/spreadsheets/d/...">
+      <div class="hint">Colunas obrigatórias: nome_grupo, segmento, produto_cluster, min_score, cupom_codigo, cupom_desconto, copy_template, media_url, media_type, data_envio, ordem</div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="setupCampaign()">Carregar campanha</button>
+      </div>
+      <div class="res" id="res-campaign"></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Score engine</div>
+      <p class="hint" style="margin-bottom:14px">Recalcula os scores de todos os leads antes de montar a campanha.</p>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="runScore()">Rodar score engine agora</button>
+      </div>
+      <div class="res" id="res-score"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ───── RESULTADOS ───── -->
+<div class="page" id="page-results">
+  <div class="page-head">
+    <div>
+      <div class="page-eyebrow">Análise</div>
+      <div class="page-title">Resultados Mensais</div>
+      <div class="page-sub">Processe a nova planilha de vendas e gere o relatório de conversão</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="card-label">Reimportar dados e detectar conversões</div>
+      <label>Mês de referência</label>
+      <input id="res-month" placeholder="Ex: 2025-06">
+      <label>Arquivo com novas vendas (CSV/Excel)</label>
+      <input type="file" id="res-file" accept=".csv,.xlsx,.xls" onchange="handleResultFile(this)">
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="processResults()">Processar resultados</button>
+      </div>
+      <div class="res" id="res-results"></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Gerar relatório</div>
+      <label>Mês de referência</label>
+      <input id="rep-month" placeholder="Ex: 2025-06">
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="generateReport()">Gerar relatório</button>
+      </div>
+      <div class="res" id="res-report"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ───── CONFIGURAÇÕES ───── -->
+<div class="page" id="page-settings">
+  <div class="page-head">
+    <div>
+      <div class="page-eyebrow">Sistema</div>
+      <div class="page-title">Configurações</div>
+      <div class="page-sub">URL base do n8n — necessária para todas as chamadas</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="card-label">Conexão com o n8n</div>
+      <label>URL base do webhook (sem barra no final)</label>
+      <input id="cfg-n8n-url" placeholder="https://n8nv1-n8n-webhook.xbcoef.easypanel.host" oninput="saveConfig()">
+      <div class="hint">Ex: https://n8nv1-n8n-webhook.xbcoef.easypanel.host — não inclua /webhook no final</div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="saveConfig(); showToast('Configuração salva!')">Salvar</button>
+        <button class="btn btn-ghost" onclick="testConnection()">Testar conexão</button>
+      </div>
+      <div class="res" id="res-settings"></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────
+const CFG_KEY = 'ks_config';
+const TEN_KEY = 'ks_tenant';
+const EXT_KEY = 'ks_extraction';
+
+function getConfig()  { try { return JSON.parse(localStorage.getItem(CFG_KEY)) || {}; } catch { return {}; } }
+function saveConfig() {
+  const url = document.getElementById('cfg-n8n-url').value.trim().replace(/\/$/, '');
+  localStorage.setItem(CFG_KEY, JSON.stringify({ ...getConfig(), n8nUrl: url }));
+}
+function getN8nUrl() { return getConfig().n8nUrl || ''; }
+
+function getTenant() { try { return JSON.parse(localStorage.getItem(TEN_KEY)) || {}; } catch { return {}; } }
+function setTenant() {
+  const uuid = document.getElementById('t-uuid').value.trim();
+  const name = document.getElementById('t-name').value.trim();
+  if (!uuid) { showToast('Informe o UUID', true); return; }
+  localStorage.setItem(TEN_KEY, JSON.stringify({ uuid, name }));
+  updateChip();
+  showToast('Cliente ativo definido!');
+}
+function updateChip() {
+  const t = getTenant();
+  document.getElementById('chip-name').textContent = t.name || 'Nenhum selecionado';
+  document.getElementById('chip-id').textContent   = t.uuid ? t.uuid.slice(0,22)+'…' : '—';
+}
+
+// ── NAV ─────────────────────────────────────────────────
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('aside a').forEach(a => a.classList.remove('active'));
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  if (el && el.classList) el.classList.add('active');
+  if (id === 'monitor') loadMonitor();
+  if (id === 'extraction') loadExtConfig();
+}
+
+function switchTab(el, tabId) {
+  const parent = el.closest('.page');
+  parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['tab-csv','tab-wpp','tab-sample'].forEach(t => {
+    const n = document.getElementById(t);
+    if (n) n.style.display = t === tabId ? 'block' : 'none';
+  });
+}
+
+// ── HTTP ─────────────────────────────────────────────────
+async function call(path, body, resId) {
+  const base = getN8nUrl();
+  if (!base) { showRes(resId,'Configure a URL do n8n em Configurações.','error'); return null; }
+  showRes(resId, 'Comunicando com o sistema…', 'loading');
+  try {
+    const r = await fetch(`${base}/webhook/${path}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const text = await r.text();
+    let parsed; try { parsed = JSON.parse(text); } catch { parsed = text; }
+    showRes(resId, JSON.stringify(parsed, null, 2));
+    return parsed;
+  } catch(e) {
+    showRes(resId, 'Erro: ' + e.message, 'error');
+    return null;
+  }
+}
+
+function showRes(id, msg, type) {
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'res show' + (type ? ' ' + type : '');
+  el.textContent = msg;
+}
+
+function showToast(msg, err) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = err ? 'var(--danger)' : 'var(--green)';
+  t.style.color = err ? 'var(--danger)' : 'var(--green)';
+  t.style.opacity = 1;
+  setTimeout(() => t.style.opacity = 0, 2500);
+}
+
+// ── MONITOR ──────────────────────────────────────────────
+async function loadMonitor() {
+  const t = getTenant();
+  if (!t.uuid) {
+    document.getElementById('monitor-sql').textContent = 'Defina um cliente ativo em Clientes.';
+    return;
+  }
+  const u = t.uuid;
+  document.getElementById('monitor-sql').textContent =
+`-- Total de leads
+SELECT COUNT(*) FROM leads WHERE tenant_id = '${u}';
+
+-- Leads com score válido
+SELECT COUNT(*) FROM lead_scores WHERE tenant_id = '${u}' AND stale = false;
+
+-- Fila pendente
+SELECT COUNT(*) FROM dispatch_queue WHERE tenant_id = '${u}' AND status = 'pending';
+
+-- Enviados este mês
+SELECT COUNT(*) FROM dispatch_queue WHERE tenant_id = '${u}' AND status = 'sent' AND sent_at > date_trunc('month', NOW());
+
+-- Convertidos
+SELECT COUNT(*) FROM dispatch_queue WHERE tenant_id = '${u}' AND status = 'converted';
+
+-- Falhas
+SELECT COUNT(*) FROM dispatch_queue WHERE tenant_id = '${u}' AND status = 'failed';`;
+}
+
+// ── TENANT ───────────────────────────────────────────────
+function createTenant() {
+  const name     = document.getElementById('new-tenant-name').value.trim() || 'Nome do Cliente';
+  const industry = document.getElementById('new-tenant-industry').value.trim() || 'geral';
+  showRes('res-tenant',
+    `Execute no Adminer:\n\nINSERT INTO tenants (name, industry)\nVALUES ('${name}', '${industry}')\nRETURNING id;\n\nCopie o UUID retornado e cole no campo acima.`
+  );
+}
+
+// ── MAPEAMENTO ───────────────────────────────────────────
+function getMapping() {
+  return {
+    nome:          document.getElementById('map-nome').value.trim()          || null,
+    telefone:      document.getElementById('map-telefone').value.trim()      || null,
+    email:         document.getElementById('map-email').value.trim()         || null,
+    ultima_compra: document.getElementById('map-ultima_compra').value.trim() || null,
+    ultimo_valor:  document.getElementById('map-ultimo_valor').value.trim()  || null,
+    produto:       document.getElementById('map-produto').value.trim()       || null
+  };
+}
+
+async function previewMapping() {
+  const t = getTenant();
+  if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  const mapping = getMapping();
+  if (!mapping.telefone || !mapping.ultima_compra) { showToast('Telefone e ultima_compra são obrigatórios', true); return; }
+  const sampleRow = {};
+  Object.values(mapping).filter(Boolean).forEach(col => { sampleRow[col] = 'VALOR_EXEMPLO'; });
+  await call('column-mapper/preview', { tenant_id: t.uuid, sample_rows: [sampleRow], column_mapping: mapping }, 'res-mapping');
+}
+
+async function saveMapping() {
+  const t = getTenant();
+  if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  const mapping = getMapping();
+  if (!mapping.telefone) { showToast('Telefone é obrigatório', true); return; }
+  const cats = document.getElementById('map-categories').value.split(',').map(s => s.trim()).filter(Boolean);
+  await call('column-mapper/save', {
+    tenant_id: t.uuid,
+    data_source: document.getElementById('map-source').value,
+    column_mapping: mapping,
+    product_categories: cats,
+    evolution_instance: document.getElementById('map-evolution').value.trim() || null
+  }, 'res-mapping');
+  showToast('Mapeamento salvo!');
+}
+
+// ── INGESTÃO CSV ──────────────────────────────────────────
+let csvRows = [], resultRows = [];
+
+function handleFileUpload(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    csvRows = parseCSV(e.target.result);
+    renderPreview(csvRows.slice(0,5), 'csv-preview-table');
+    document.getElementById('csv-preview-area').style.display = 'block';
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function handleResultFile(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => { resultRows = parseCSV(e.target.result); };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n'); if (lines.length < 2) return [];
+  const sep = lines[0].includes(';') ? ';' : ',';
+  const headers = lines[0].split(sep).map(h => h.trim().replace(/^"|"$/g,''));
+  return lines.slice(1).map(line => {
+    const vals = line.split(sep).map(v => v.trim().replace(/^"|"$/g,''));
+    const obj = {}; headers.forEach((h,i) => { obj[h] = vals[i] || ''; });
+    return obj;
+  }).filter(row => Object.values(row).some(v => v));
+}
+
+function renderPreview(rows, tableId) {
+  if (!rows.length) return;
+  const table = document.getElementById(tableId);
+  const headers = Object.keys(rows[0]);
+  table.innerHTML =
+    '<tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr>' +
+    rows.map(row => '<tr>' + headers.map(h => `<td>${row[h]||''}</td>`).join('') + '</tr>').join('');
+}
+
+async function ingestCSV() {
+  const t = getTenant(); if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  if (!csvRows.length) { showToast('Selecione um arquivo primeiro', true); return; }
+  await call('ingest/csv', { tenant_id: t.uuid, rows: csvRows, use_ai: document.getElementById('csv-use-ai').value === 'true' }, 'res-ingest-csv');
+  showToast('Ingestão iniciada!');
+}
+
+async function ingestWhatsApp() {
+  const t = getTenant(); if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  const text = document.getElementById('wpp-text').value.trim();
+  if (!text) { showToast('Cole o texto do WhatsApp', true); return; }
+  await call('ingest/whatsapp', { tenant_id: t.uuid, log_text: text, use_ai: document.getElementById('wpp-use-ai').value === 'true' }, 'res-ingest-wpp');
+  showToast('Ingestão iniciada!');
+}
+
+async function ingestSample() {
+  const t = getTenant(); if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  const sampleRows = [
+    {"Nome":"João Silva","Telefone":"11999998888","Ultima Compra":"15/03/2025","Valor":"89.90","Produto":"Pizza Calabresa"},
+    {"Nome":"Maria Santos","Telefone":"11988887777","Ultima Compra":"20/11/2024","Valor":"120.00","Produto":"Pizza Doce"},
+    {"Nome":"Carlos Lima","Telefone":"11977776666","Ultima Compra":"10/01/2024","Valor":"75.00","Produto":"Bebida"},
+    {"Nome":"Ana Costa","Telefone":"11966665555","Ultima Compra":"05/04/2025","Valor":"95.50","Produto":"Pizza Calabresa"},
+    {"Nome":"Pedro Mendes","Telefone":"11955554444","Ultima Compra":"22/06/2023","Valor":"60.00","Produto":"Pizza Doce"},
+    {"Nome":"Lucia Ferreira","Telefone":"11944443333","Ultima Compra":"01/02/2025","Valor":"110.00","Produto":"Pizza Calabresa"},
+    {"Nome":"Rafael Souza","Telefone":"11933332222","Ultima Compra":"14/09/2024","Valor":"88.00","Produto":"Bebida"},
+    {"Nome":"Fernanda Dias","Telefone":"11922221111","Ultima Compra":"30/12/2023","Valor":"145.00","Produto":"Pizza Doce"}
+  ];
+  await call('ingest/csv', { tenant_id: t.uuid, rows: sampleRows, use_ai: false, mapping: { nome:"Nome", telefone:"Telefone", ultima_compra:"Ultima Compra", ultimo_valor:"Valor", produto:"Produto" } }, 'res-ingest-sample');
+  showToast('Dados de exemplo importados!');
+}
+
+// ── EXTRAÇÃO WHATSAPP ─────────────────────────────────────
+let extractionMode = 'dry';
+
+function setMode(mode) {
+  extractionMode = mode;
+  document.getElementById('mode-dry').classList.toggle('active', mode === 'dry');
+  document.getElementById('mode-full').classList.toggle('active', mode === 'full');
+  const hint = document.getElementById('mode-hint');
+  if (mode === 'dry') {
+    hint.innerHTML = '<strong style="color:var(--warn)">Teste:</strong> lista os chats disponíveis sem processar mensagens. Use para confirmar que a instância está conectada antes de rodar a extração real.';
+  } else {
+    hint.innerHTML = '<strong style="color:var(--green)">Extração completa:</strong> varre todos os chats, filtra por palavras-chave e envia para a IA analisar. Os resultados serão gravados na planilha informada. <strong style="color:var(--warn)">Processo pode levar de 30 min a 2h dependendo do volume.</strong>';
+  }
+}
+
+function loadExtConfig() {
+  // Pré-preenche a URL base se tiver nas configurações
+  const cfg = getConfig();
+  if (cfg.evolutionBase) document.getElementById('ext-base-url').value = cfg.evolutionBase;
+  if (cfg.evolutionApiKey) document.getElementById('ext-apikey').value = cfg.evolutionApiKey;
+}
+
+function clearExtRes() {
+  const el = document.getElementById('res-extraction');
+  el.className = 'res'; el.textContent = '';
+}
+
+async function runExtraction() {
+  const t = getTenant(); if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  const baseUrl   = document.getElementById('ext-base-url').value.trim();
+  const instance  = document.getElementById('ext-instance').value.trim();
+  const apikey    = document.getElementById('ext-apikey').value.trim();
+  const sheetsUrl = document.getElementById('ext-sheets-url').value.trim();
+  const maxMsgs   = parseInt(document.getElementById('ext-max-msgs').value) || 700;
+
+  if (!baseUrl)  { showToast('Informe a URL da Evolution', true); return; }
+  if (!instance) { showToast('Informe o nome da instância', true); return; }
+  if (!apikey)   { showToast('Informe a API Key', true); return; }
+  if (extractionMode === 'full' && !sheetsUrl) { showToast('Informe a URL da planilha de destino', true); return; }
+
+  // Salva config para próxima vez
+  const cfg = getConfig();
+  localStorage.setItem(CFG_KEY, JSON.stringify({ ...cfg, evolutionBase: baseUrl, evolutionApiKey: apikey }));
+
+  const body = {
+    tenant_id:          t.uuid,
+    evolution_instance: instance,
+    evolution_base_url: baseUrl,
+    evolution_apikey:   apikey,
+    sheets_url:         sheetsUrl || null,
+    max_messages:       maxMsgs,
+    dry_run:            extractionMode === 'dry'
+  };
+
+  showToast(extractionMode === 'dry' ? 'Teste iniciado…' : 'Extração iniciada em background…');
+  await call('extract/history', body, 'res-extraction');
+}
+
+// ── CAMPANHA ──────────────────────────────────────────────
+async function setupCampaign() {
+  const t = getTenant(); if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  const url = document.getElementById('camp-sheets-url').value.trim();
+  if (!url) { showToast('Informe a URL do Sheets', true); return; }
+  await call('campaign/setup', { tenant_id: t.uuid, sheets_url: url }, 'res-campaign');
+  showToast('Campanha sendo processada!');
+}
+
+async function runScore() {
+  const t = getTenant(); if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  await call('score/run', { tenant_id: t.uuid }, 'res-score');
+  showToast('Score engine iniciado!');
+}
+
+// ── RESULTADOS ────────────────────────────────────────────
+async function processResults() {
+  const t = getTenant(); if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  const month = document.getElementById('res-month').value.trim();
+  if (!month) { showToast('Informe o mês', true); return; }
+  if (!resultRows.length) { showToast('Selecione o arquivo de resultados', true); return; }
+  await call('results/monthly', { tenant_id: t.uuid, month_ref: month, rows: resultRows }, 'res-results');
+  showToast('Processamento iniciado!');
+}
+
+async function generateReport() {
+  const t = getTenant(); if (!t.uuid) { showToast('Defina um cliente ativo', true); return; }
+  const month = document.getElementById('rep-month').value.trim();
+  if (!month) { showToast('Informe o mês', true); return; }
+  await call('results/report', { tenant_id: t.uuid, month_ref: month }, 'res-report');
+}
+
+// ── SETTINGS ─────────────────────────────────────────────
+async function testConnection() {
+  const base = getN8nUrl();
+  if (!base) { showRes('res-settings','Configure a URL primeiro.','error'); return; }
+  showRes('res-settings', 'Testando conexão com ' + base + '…', 'loading');
+  try {
+    await fetch(base, { method: 'GET', mode: 'no-cors' });
+    showRes('res-settings', 'Conexão OK — URL acessível.');
+    showToast('Conexão OK!');
+  } catch(e) {
+    showRes('res-settings', 'Não foi possível alcançar ' + base + '\nVerifique se o n8n está rodando.', 'error');
+  }
+}
+
+// ── INIT ─────────────────────────────────────────────────
+(function init() {
+  const cfg = getConfig();
+  if (cfg.n8nUrl) document.getElementById('cfg-n8n-url').value = cfg.n8nUrl;
+  const t = getTenant();
+  if (t.uuid) {
+    document.getElementById('t-uuid').value = t.uuid;
+    document.getElementById('t-name').value = t.name || '';
+  }
+  updateChip();
+})();
+</script>
+</body>
+</html>
